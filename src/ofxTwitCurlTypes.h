@@ -3,6 +3,7 @@
 #include <string>
 #include <array>
 #include <vector>
+#include <deque>
 
 struct OAuthInfo {
     std::string consumerKey = "",
@@ -233,7 +234,7 @@ struct User : public UserInfo {
     Tweet status;
 };
 
-using Tweets = std::vector<Tweet>;
-using Users = std::vector<User>;
+using Tweets = std::deque<Tweet>;
+using Users = std::deque<User>;
 
 #endif // OFXTWITTERTYPES_H
