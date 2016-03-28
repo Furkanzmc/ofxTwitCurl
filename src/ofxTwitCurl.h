@@ -10,22 +10,24 @@ class ofxTwitCurl
 public:
     ofxTwitCurl();
 
-    void update();
+    void update(ofEventArgs &args);
 
-    void setup(const OAuthInfo &info, const std::string &username, const std::string &password);
+    void setup(const ofxTwitCurlTypes::OAuthInfo &info, const std::string &username, const std::string &password);
 
-    void getAccountVerification(std::function<void(User)> callback);
-    void search(const string &query, const string &count, const twitCurlTypes::eTwitCurlResultType &resultType, std::function<void(Tweets)> callback);
+    void getAccountVerification(std::function<void(ofxTwitCurlTypes::User)> callback);
+    void search(const std::string &query, const string &count, const twitCurlTypes::eTwitCurlResultType &resultType,
+                std::function<void(ofxTwitCurlTypes::Tweets)> callback);
 
 private:
     bool m_IsRunningRequest;
     twitCurl m_TwitCurl;
-    std::vector<std::pair<std::future<User>, std::function<void(User)>>> m_FuturesUserInfo;
-    std::vector<std::pair<std::future<Tweets>, std::function<void(Tweets)>>> m_FuturesTweets;
+    std::vector<std::pair<std::future<ofxTwitCurlTypes::User>, std::function<void(ofxTwitCurlTypes::User)>>> m_FuturesUserInfo;
+    std::vector<std::pair<std::future<ofxTwitCurlTypes::Tweets>, std::function<void(ofxTwitCurlTypes::Tweets)>>> m_FuturesTweets;
 
 private:
-    User accountVerifyCredGet();
-    Tweets doSearch(const string &query, const string &count, const twitCurlTypes::eTwitCurlResultType &resultType = twitCurlTypes::eTwitCurlResultTypeMixed);
+    ofxTwitCurlTypes::User accountVerifyCredGet();
+    ofxTwitCurlTypes::Tweets doSearch(const string &query, const string &count,
+                                      const twitCurlTypes::eTwitCurlResultType &resultType = twitCurlTypes::eTwitCurlResultTypeMixed);
 };
 
 #endif // ofxTwitCurl_H

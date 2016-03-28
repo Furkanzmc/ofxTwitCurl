@@ -1,4 +1,5 @@
 #include "ofxTwitCurlCreators.h"
+using namespace ofxTwitCurlTypes;
 
 ofxTwitCurlCreators::ofxTwitCurlCreators()
 {

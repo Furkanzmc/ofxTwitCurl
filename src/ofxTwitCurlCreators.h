@@ -8,21 +8,21 @@ class ofxTwitCurlCreators
 public:
     ofxTwitCurlCreators();
 
-    static User createUserInfo(const ofxJSONElement &userJson, bool isConstructStatus);
-    static Tweet createTweet(const ofxJSONElement &tweetJson, bool isConstructRetweet, bool isConstructUser);
+    static ofxTwitCurlTypes::User createUserInfo(const ofxJSONElement &userJson, bool isConstructStatus);
+    static ofxTwitCurlTypes::Tweet createTweet(const ofxJSONElement &tweetJson, bool isConstructRetweet, bool isConstructUser);
 
-    static EntityMedia createMediaEntity(const ofxJSONElement &mediaJson);
-    static EntityURL createURLEntity(const ofxJSONElement &urlJson);
-    static EntityUserMention createUserMentionEntity(const ofxJSONElement &mentionJson);
-    static EntityHashtag createHashtagEntity(const ofxJSONElement &hashtagJson);
-    static EntitySymbol createSymbolEntity(const ofxJSONElement &symbolJson);
+    static ofxTwitCurlTypes::EntityMedia createMediaEntity(const ofxJSONElement &mediaJson);
+    static ofxTwitCurlTypes::EntityURL createURLEntity(const ofxJSONElement &urlJson);
+    static ofxTwitCurlTypes::EntityUserMention createUserMentionEntity(const ofxJSONElement &mentionJson);
+    static ofxTwitCurlTypes::EntityHashtag createHashtagEntity(const ofxJSONElement &hashtagJson);
+    static ofxTwitCurlTypes::EntitySymbol createSymbolEntity(const ofxJSONElement &symbolJson);
 
-    static Entities createEntities(const ofxJSONElement &entitiesjson);
+    static ofxTwitCurlTypes::Entities createEntities(const ofxJSONElement &entitiesjson);
 
     static std::vector<std::string> getStringsFromArray(const ofxJSONElement &elem);
-    static Indices createIndices(const ofxJSONElement &indicesJson);
+    static ofxTwitCurlTypes::Indices createIndices(const ofxJSONElement &indicesJson);
 
-    static EntityMediaSize createMediaSize(const ofxJSONElement &sizeJson);
+    static ofxTwitCurlTypes::EntityMediaSize createMediaSize(const ofxJSONElement &sizeJson);
 };
 
 #endif // OFXTWITTERINITIALIZERS_H

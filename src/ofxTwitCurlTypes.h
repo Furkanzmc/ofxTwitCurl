@@ -5,6 +5,8 @@
 #include <vector>
 #include <deque>
 
+namespace ofxTwitCurlTypes
+{
 struct OAuthInfo {
     std::string consumerKey = "",
                 consumerSecret = "",
@@ -236,5 +238,6 @@ struct User : public UserInfo {
 
 using Tweets = std::deque<Tweet>;
 using Users = std::deque<User>;
+}
 
 #endif // OFXTWITTERTYPES_H

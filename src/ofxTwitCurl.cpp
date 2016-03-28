@@ -1,6 +1,7 @@
 #include "ofxTwitCurl.h"
 #include "urlencode.h"
 #include "ofxTwitCurlCreators.h"
+using namespace ofxTwitCurlTypes;
 
 #define OPERATION_CHECK() \
     do { \
@@ -16,9 +17,10 @@ ofxTwitCurl::ofxTwitCurl()
     : m_IsRunningRequest(false)
     , m_TwitCurl()
 {
+    ofAddListener(ofEvents().update, this, &ofxTwitCurl::update);
 }
 
-void ofxTwitCurl::update()
+void ofxTwitCurl::update(ofEventArgs &args)
 {
     for (unsigned int i = 0; i < m_FuturesUserInfo.size(); i++) {
         std::pair<std::future<User>, std::function<void(User)>> &p = m_FuturesUserInfo.at(i);
