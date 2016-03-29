@@ -5,10 +5,14 @@
 #include "ofxJSON.h"
 #include <future>
 
+/**
+ * TODO: Add Twitter error codes handling
+ */
 class ofxTwitCurl
 {
 public:
     ofxTwitCurl();
+    ~ofxTwitCurl();
 
     void update(ofEventArgs &args);
 
@@ -18,9 +22,16 @@ public:
     void search(const std::string &query, const string &count, const twitCurlTypes::eTwitCurlResultType &resultType,
                 std::function<void(ofxTwitCurlTypes::Tweets)> callback);
 
+    bool isRunningRequest() const;
+
+    std::string getLastError() const;
+    std::string getLastResponse() const;
+
 private:
     bool m_IsRunningRequest;
     twitCurl m_TwitCurl;
+    std::string m_LastError, m_LastResponse;
+
     std::vector<std::pair<std::future<ofxTwitCurlTypes::User>, std::function<void(ofxTwitCurlTypes::User)>>> m_FuturesUserInfo;
     std::vector<std::pair<std::future<ofxTwitCurlTypes::Tweets>, std::function<void(ofxTwitCurlTypes::Tweets)>>> m_FuturesTweets;
 

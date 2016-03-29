@@ -16,8 +16,15 @@ using namespace ofxTwitCurlTypes;
 ofxTwitCurl::ofxTwitCurl()
     : m_IsRunningRequest(false)
     , m_TwitCurl()
+    , m_LastError("")
+    , m_LastResponse("")
 {
     ofAddListener(ofEvents().update, this, &ofxTwitCurl::update);
+}
+
+ofxTwitCurl::~ofxTwitCurl()
+{
+    ofRemoveListener(ofEvents().update, this, &ofxTwitCurl::update);
 }
 
 void ofxTwitCurl::update(ofEventArgs &args)
@@ -79,15 +86,34 @@ void ofxTwitCurl::search(const string &query, const string &count, const twitCur
     m_FuturesTweets.push_back(std::make_pair(std::move(fut), std::move(callback)));
 }
 
+bool ofxTwitCurl::isRunningRequest() const
+{
+    return m_IsRunningRequest;
+}
+
+std::string ofxTwitCurl::getLastError() const
+{
+    return m_LastError;
+}
+
+std::string ofxTwitCurl::getLastResponse() const
+{
+    return m_LastResponse;
+}
+
 User ofxTwitCurl::accountVerifyCredGet()
 {
-    std::string response = "";
     if (m_TwitCurl.accountVerifyCredGet()) {
-        m_TwitCurl.getLastWebResponse(response);
+        m_TwitCurl.getLastWebResponse(m_LastResponse);
 
         ofxJSONElement json;
-        json.parse(response);
+        json.parse(m_LastResponse);
         return ofxTwitCurlCreators::createUserInfo(json, true);
+    }
+    else {
+        m_TwitCurl.getLastCurlError(m_LastResponse);
+        m_LastError = m_LastResponse;
+        ofLogError("ofxTwitCurl") << __FUNCTION__ << ": " << m_LastResponse << "\n";
     }
 
     return User();
@@ -96,18 +122,18 @@ User ofxTwitCurl::accountVerifyCredGet()
 Tweets ofxTwitCurl::doSearch(const std::string &query, const std::string &count, const twitCurlTypes::eTwitCurlResultType &resultType)
 {
     Tweets tweets;
-    std::string response = "";
     if (m_TwitCurl.search(query, count, resultType)) {
-        m_TwitCurl.getLastWebResponse(response);
+        m_TwitCurl.getLastWebResponse(m_LastResponse);
     }
     else {
-        m_TwitCurl.getLastCurlError(response);
-        ofLogError("ofxTwitCurl") << __FUNCTION__ << ": " << response << "\n";
+        m_TwitCurl.getLastCurlError(m_LastResponse);
+        m_LastError = m_LastResponse;
+        ofLogError("ofxTwitCurl") << __FUNCTION__ << ": " << m_LastResponse << "\n";
         return tweets;
     }
 
     ofxJSONElement json;
-    json.parse(response);
+    json.parse(m_LastResponse);
     const ofxJSONElement statuses = json["statuses"];
     const unsigned int statusCount = statuses.size();
     for (unsigned int i = 0; i < statusCount; i++) {
